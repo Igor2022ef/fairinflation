@@ -1,0 +1,33 @@
+{% extends 'watchinflation/base.html' %}
+
+{% block content %}
+
+<section class="main-content">
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 mb-12">
+                    <div class="post-card">
+                            <div class="reg-page">
+                                <h4>
+                                    {{title}}
+                                </h4>
+                            </div>
+               <form action="{% url 'addpage' %}" method="post", enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-error">{{ form.non_field_errors }}</div>
+                    {% for f in form %}
+                    <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+                <div class="form-error">{{ f.errors }}</div>
+                    {% endfor %}
+                <div class="reg-button">
+                    <button type="submit" class="btn btn-outline-secondary">Добавить</button>
+                </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

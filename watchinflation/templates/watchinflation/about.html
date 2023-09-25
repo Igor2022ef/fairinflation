@@ -1,0 +1,26 @@
+{% extends 'watchinflation/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="main-content">
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 mb-12">
+                    <div class="post-card">
+						<div class="post-page-about">
+                            <h6>
+                            Некоторая информация о проекте.
+                            </h6>
+                <a href="#"><img src="{% static 'watchinflation/images/imgPost1.jpg' %}" alt=""></a>
+						</div>
+                    <div class="post-details">
+                        <p>Здесь следует расположить текст о сайте</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</section>
+
+{% endblock %}

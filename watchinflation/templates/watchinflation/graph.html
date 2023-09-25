@@ -1,0 +1,23 @@
+{% extends 'watchinflation/base.html' %}
+
+{% block graph %}
+
+<div class="post-page-graf">
+    <h5>
+    Графики инфляции за периоды 2018-2023 г.г.
+    </h5>
+
+  {% autoescape off %}
+  {{ graph }}
+  {% endautoescape %}
+
+</div>
+
+{% endblock graph %}
+
+
+
+
+
+
+

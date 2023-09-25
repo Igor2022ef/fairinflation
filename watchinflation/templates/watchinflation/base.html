@@ -1,0 +1,152 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous">
+    <link type="text/css" href="{% static 'watchinflation/css/styles.css' %}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b6b873877b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+{% block mainmenu %}
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'home' %}">Честная инфляция</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
+            {% for m in menu %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url m.url_name %}">{{m.title}}</a>
+            </li>
+          {% endfor %}
+{#  Блок Категории статей  #}
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Группы статей</a>
+                <ul class="dropdown-menu top-menu">
+                <li><a class="dropdown-item" href="{% url 'home' %}">Все статьи</a>
+        {% for c in cats %}
+            {% if c.articles__count > 0 %}
+            {% if c.pk == cat_selected %}
+                <li class="dropdown-item">{{c.name}}
+                </li>
+                    {% else %}
+                <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">{{c.name}}</a>
+                </li>
+            {% endif %}
+		    {% endif %}
+        {% endfor %}
+                </ul>
+            </li>
+            </ul>
+{#  Конец блока Категории статей  #}
+{# Тэг </ul>  который ниже закрывает блок meny пора к <ul из стр. 27 открывающий этот блок#}
+          </ul>
+    {#  Блок Регистрация - авторизация  #}
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i class="fa-solid fa-user-pen"></i></a>
+                <ul class="dropdown-menu top-menu">
+                {% if request.user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                {% else %}
+                <li><a class="dropdown-item" href="{% url 'register' %}">Регистрация</a>
+                    <a class="dropdown-item" href="{% url 'login' %}">Войти</a>
+                </li>
+                {% endif %}
+                </ul>
+            </li>
+            </ul>
+{#  Конец Блока Регистрация - авторизация  #}
+        </div>
+      </div>
+</nav>
+{% endblock mainmenu %}
+{% block graph %}
+    <div class="post-page-graf">
+
+    </div>
+{% endblock graph %}
+{% block carousel %}
+{% endblock carousel %}
+{% block content %}
+{% endblock content %}
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+        {% if page_obj.has_previous %}
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+      {% endif %}
+  {% for p in paginator.page_range %}
+		{% if page_obj.number == p %}
+    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+        {% elif p >= page_obj.number|add:-1 and p <= page_obj.number|add:1  %}
+    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+    {% endfor %}
+        {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  {% endif %}
+  </ul>
+</nav>
+
+<!-- Footer -->
+
+<footer>
+		<section class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-6">
+						<h4>Информация</h4>
+						<ul class="list-unstyled">
+							<li><a href="{% url 'home' %}">Главная страница</a></li>
+							<li><a href="{% url 'about' %}">О проекте</a></li>
+						</ul>
+					</div>
+
+					<div class="col-md-3 col-6">
+						<h4>Контакты</h4>
+						<ul class="list-unstyled">
+							<li>Санкт-Петербург</li>
+						</ul>
+					</div>
+
+					<div class="col-md-3 col-6">
+						<h4>Мы в сети</h4>
+						<div class="footer-icons">
+							<a href="#"><i class="fab fa-facebook-f"></i></a>
+							<a href="#"><i class="fab fa-youtube"></i></a>
+							<a href="#"><i class="fab fa-instagram"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</footer>
+
+<!-- Конец footer'а и страницы -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+</body>
+</html>

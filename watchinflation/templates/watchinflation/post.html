@@ -1,0 +1,25 @@
+{% extends 'watchinflation/base.html' %}
+
+{% block content %}
+<section class="main-content">
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 mb-12">
+                    <div class="post-card">
+						<div class="post-thumb">
+                            <h3>{{post.title}}</h3>
+                            {% if post.photo %}
+                <a href="#"><img src="{{post.photo.url}}" alt=""></a>
+                            {% endif %}
+						</div>
+                    <div class="post-details">
+                        <p>{{post.content|linebreaks}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</section>
+
+
+{% endblock %}
